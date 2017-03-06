@@ -33,6 +33,12 @@ input {
   display: inline-block;
 }
 
+#load-game {
+  height: 45px;
+  width: 100px;
+  background-color: #5BAF5E;
+}
+
 .returned-movie > div {
   height: 50px;
   width: auto;

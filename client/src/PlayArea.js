@@ -2,6 +2,7 @@ import React from 'react';
 import MovieCard from './MovieCard';
 import MovieSearchBar from './MovieSearchBar';
 import MovieSearchResults from './MovieSearchResults';
+import MovieGame from './MovieGame';
 import axios from 'axios';
 
 class PlayArea extends React.Component {
@@ -14,7 +15,8 @@ class PlayArea extends React.Component {
       movies: [],
       searchText: '',
       searchResult: [],
-      showResults: false
+      showResults: false,
+      showGame: false
     };
   }
 
@@ -49,13 +51,28 @@ class PlayArea extends React.Component {
   }
 
   addMovieToGame(movie) {
+    console.log("movie = " + movie);
     this.game.push(movie);
-    console.log("move = " + movie);
     console.log("game = " + this.game);
     this.setState({
       movies: this.game
     });
-    console.log(this.state.movies);
+    console.log("movie state " + this.state.movies);
+  }
+
+  buildGame(arr) {
+    //map each array index
+    arr.map(poster => {
+      let gameArray = arr;
+      gameArray.push(poster);
+      gameArray.push(poster);
+      gameArray.push(poster);
+      console.log(gameArray);
+      this.setState({
+        showGame: true
+      });
+      return gameArray;
+    });
   }
 
   formatDate(date) {
@@ -71,8 +88,10 @@ class PlayArea extends React.Component {
           captureSearch={this.captureSearch.bind(this)}
           goSearch={this.goSearch.bind(this)}
           value={this.state.searchText}/>
+        <div id='load-game' onClick={() => this.buildGame(this.state.movies)}>Load Game</div>
         {this.state.showResults ? <MovieSearchResults searchResult={this.state.searchResult}
           addMovie={this.addMovieToGame.bind(this)}/> : null}
+        {this.state.showGame ? <MovieGame gameDeck={this.game}/> : null}
       </div>
     )
   }
