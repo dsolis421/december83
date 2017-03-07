@@ -1,16 +1,21 @@
 .App {
+  position: relative;
   text-align: center;
+  min-height: 600px;
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
+#movie-menu {
+  position: absolute;
+  background-color: white;
+  top: 0;
+  left: 0;
+  width: 150px;
+  height: 600px;
+  overflow-y: scroll;
 }
 
-.App-intro {
-  font-size: large;
+#play-area {
+  padding: 30px 30px 0 180px;
 }
 
 input {
@@ -37,6 +42,7 @@ input {
   height: 45px;
   width: 100px;
   background-color: #5BAF5E;
+  color: white;
 }
 
 .returned-movie > div {
@@ -53,4 +59,16 @@ input {
   color: #5BAF5E;
   margin: 0 20px 0 0;
   line-height: 50px;
+}
+
+#game-board {
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;;
+}
+
+#game-board > div {
+  margin: 5px;
 }

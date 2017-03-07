@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PlayArea from './PlayArea';
+import MovieMenu from './MovieMenu';
 import './App.css';
 
 class App extends Component {
@@ -11,8 +12,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <h1>Welcome to Movie Memory</h1>
-        <h3>Put your memory to the test</h3>
+        <MovieMenu />  
         <PlayArea />
       </div>
     );

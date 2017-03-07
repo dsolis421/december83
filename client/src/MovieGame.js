@@ -69,7 +69,7 @@ class MovieGame extends React.Component {
     return (
       <div id="game-board">
         {this.props.gameDeck.map(card => {
-          return <MovieCard key={card} memoryImage={card}/>
+          return <MovieCard key={card.id} memoryImage={card.movie}/>
           })
         }
       </div>
