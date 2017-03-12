@@ -10,11 +10,12 @@ class MovieGame extends React.Component {
 
     this.state = {
       gameReady: false,
-      matches: 0
+      matches: 0,
+      gameMovies: []
     }
   }
 
-/*  shuffleArray(arr) {
+  shuffleArray(arr) {
     //randomly shuffles array, pass the game array here after buildGame
     var workingArray = arr.slice(), shuffledArray = [];
     while (workingArray.length) {
@@ -23,9 +24,16 @@ class MovieGame extends React.Component {
     return shuffledArray;
   }
 
-
-
   startGame() {
+    this.setState({
+    gameReady: true,
+    matches: 0,
+    gameMovies: this.shuffleArray(this.props.gameDeck)
+    });
+
+  }
+
+  runGameOver() {
 
   }
 
@@ -38,7 +46,8 @@ class MovieGame extends React.Component {
   }
 
   checkForComplete() {
-    if(this.state.matches == 20) {
+    let win = this.state.gameMovies.length / 2;
+    if(this.state.matches == win) {
       return true;
     } else {
       return false;
@@ -51,11 +60,11 @@ class MovieGame extends React.Component {
       return;
     } else {
       this.secondSelection = selection;
-      if(checkForMatch(this.firstSelection, this.secondSelection)) {
+      if(this.checkForMatch(this.firstSelection, this.secondSelection)) {
         this.setState({matches: this.state.matches++});
         //somehow change card state
-        if(checkForComplete()) {
-          runGameOver();
+        if(this.checkForComplete()) {
+          this.runGameOver();
         } else {
           return;
         }
@@ -63,19 +72,18 @@ class MovieGame extends React.Component {
         return;
       }
     }
-  }*/
+  }
 
   render() {
     return (
       <div id="game-board">
-        {this.props.gameDeck.map(card => {
-          return <MovieCard key={card.id} memoryImage={card.movie}/>
+        {this.state.gameMovies.map(card => {
+          return <MovieCard key={card.id} memoryImage={card.movie} handleSelection={this.setSelection.bind(this)}/>
           })
         }
       </div>
     )
   }
-
 }
 
 export default MovieGame;

@@ -80,6 +80,14 @@ class PlayArea extends React.Component {
     });
   }
 
+  startGame() {
+    this.setState({
+      showSearch: false,
+      showResults: false,
+      showGame: true
+    });
+  }
+
   formatDate(date) {
     let arrDate = date.split('-');
     return arrDate[1] + '/' + arrDate[2] + '/' + arrDate[0];
@@ -95,6 +103,7 @@ class PlayArea extends React.Component {
           goSearch={this.goSearch.bind(this)}
           value={this.state.searchText}/> : null }
         <div id='load-game' onClick={() => this.buildGame(this.state.movies)}>Load Game</div>
+        <div id='start-game'>Start Game</div>
         {this.state.showResults ? <MovieSearchResults searchResult={this.state.searchResult}
           addMovie={this.addMovieToGame.bind(this)}/> : null}
         {this.state.showGame ? <MovieGame gameDeck={this.state.movies}/> : null}
