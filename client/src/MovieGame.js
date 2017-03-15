@@ -11,8 +11,15 @@ class MovieGame extends React.Component {
     this.state = {
       gameReady: false,
       matches: 0,
-      gameMovies: []
+      gameMovies: [],
+      showPoster: false
     }
+  }
+
+  componentDidMount() {
+    this.setState({
+      gameMovies: this.props.gameDeck
+    });
   }
 
   shuffleArray(arr) {
@@ -25,6 +32,7 @@ class MovieGame extends React.Component {
   }
 
   startGame() {
+    console.log("Shuffling game...")
     this.setState({
     gameReady: true,
     matches: 0,
@@ -77,8 +85,13 @@ class MovieGame extends React.Component {
   render() {
     return (
       <div id="game-board">
+        <div id='start-game'>Start Game</div>
         {this.state.gameMovies.map(card => {
-          return <MovieCard key={card.id} memoryImage={card.movie} handleSelection={this.setSelection.bind(this)}/>
+          return (
+            <MovieCard key={card.id}
+              memoryImage={card.movie}
+              handleSelection={this.setSelection.bind(this)} />
+            )
           })
         }
       </div>

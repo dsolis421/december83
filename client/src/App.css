@@ -38,7 +38,7 @@ input {
   display: inline-block;
 }
 
-#load-game {
+#load-game, #start-game {
   height: 45px;
   width: 100px;
   background-color: #5BAF5E;
@@ -66,9 +66,24 @@ input {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-between;;
+  justify-content: space-between;
 }
 
 #game-board > div {
   margin: 5px;
+}
+
+#start-game {
+  display: block;
+}
+
+.movie-card {
+  width: 122px;
+  height: 183px;
+  border: 2px solid black;
+  background: black;
+}
+.movie-card img {
+  width: 122px;
+  height: 100%;
 }

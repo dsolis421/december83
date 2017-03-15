@@ -64,20 +64,22 @@ class PlayArea extends React.Component {
 
   buildGame(arr) {
     //map each array index
+    let gameArray = arr;
     arr.map(poster => {
-      let gameArray = arr;
       gameArray.push({id: Math.floor(Math.random() * 1000), movie: poster.movie});
       gameArray.push({id: Math.floor(Math.random() * 1000), movie: poster.movie});
       gameArray.push({id: Math.floor(Math.random() * 1000), movie: poster.movie});
-      console.log("game array", gameArray);
-      this.setState({
-        movies: gameArray,
-        showGame: true,
-        showResults: false,
-        showSearch: false
-      });
-      return gameArray;
     });
+    console.log("game array", gameArray);
+    this.setState({
+      movies: gameArray,
+      showGame: true,
+      showResults: false,
+      showSearch: false
+    });
+    console.log("build game movies", this.state.movies);
+    console.log("Show game", this.state.showGame);
+    return gameArray;
   }
 
   startGame() {
@@ -103,7 +105,6 @@ class PlayArea extends React.Component {
           goSearch={this.goSearch.bind(this)}
           value={this.state.searchText}/> : null }
         <div id='load-game' onClick={() => this.buildGame(this.state.movies)}>Load Game</div>
-        <div id='start-game'>Start Game</div>
         {this.state.showResults ? <MovieSearchResults searchResult={this.state.searchResult}
           addMovie={this.addMovieToGame.bind(this)}/> : null}
         {this.state.showGame ? <MovieGame gameDeck={this.state.movies}/> : null}

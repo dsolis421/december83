@@ -5,17 +5,14 @@ class MovieCard extends React.Component {
     super();
 
     this.state = {
-      background: 'black',
       clickable: true,
-      showPoster: true
+      showThisPoster: false
     }
   }
 
   clickMovie() {
+    console.log('clicked movie');
     if(this.state.clickable) {
-      this.setState({
-        showPoster: true
-      });
       this.props.handleSelection(this.props.memoryImage);
     } else {
       return;
@@ -30,9 +27,8 @@ class MovieCard extends React.Component {
 
   render() {
     return (
-      <div>
-        {this.state.showPoster ? <img src={this.props.memoryImage}
-        onClick={() => this.clickMovie}/> : null}
+      <div className='movie-card' onClick={() => this.clickMovie()}>
+        {this.props.showThisPoster ? <img src={this.props.memoryImage} /> : null}
       </div>
     )
   }
