@@ -44,41 +44,37 @@ class PlayArea extends React.Component {
         searchResult: RESULT,
         showResults: true
       });
-      console.log("search result ", this.state.searchResult);
     })
     .catch(err => {
-        console.log(`Error! ${err}`)
+        console.log(`Search Error! ${err}`)
     });
   }
 
   addMovieToGame(movie) {
-    console.log("movie = " + movie);
     var x = this.game.length + 1;
-    this.game.push({id: x, movie: movie});
-    console.log("game", this.game);
+    this.game.push({id: x, poster: movie, showPoster: false});
+    console.log('this game', this.game);
     this.setState({
       movies: this.game
     });
     console.log("movie state ", this.state.movies);
   }
 
-  buildGame(arr) {
+  buildGame() {
     //map each array index
-    let gameArray = arr;
-    arr.map(poster => {
-      gameArray.push({id: Math.floor(Math.random() * 1000), movie: poster.movie});
-      gameArray.push({id: Math.floor(Math.random() * 1000), movie: poster.movie});
-      gameArray.push({id: Math.floor(Math.random() * 1000), movie: poster.movie});
+    let gameArray = this.state.movies;
+    this.state.movies.map(movie => {
+      gameArray.push({id: Math.floor(Math.random() * 1000), poster: movie.poster, showPoster: false});
+      gameArray.push({id: Math.floor(Math.random() * 1000), poster: movie.poster, showPoster: false});
+      gameArray.push({id: Math.floor(Math.random() * 1000), poster: movie.poster, showPoster: false});
     });
-    console.log("game array", gameArray);
+    console.log('game array', gameArray);
     this.setState({
       movies: gameArray,
       showGame: true,
       showResults: false,
       showSearch: false
     });
-    console.log("build game movies", this.state.movies);
-    console.log("Show game", this.state.showGame);
     return gameArray;
   }
 
@@ -103,8 +99,9 @@ class PlayArea extends React.Component {
         {this.state.showSearch ? <MovieSearchBar
           captureSearch={this.captureSearch.bind(this)}
           goSearch={this.goSearch.bind(this)}
+          buildGame={this.buildGame.bind(this)}
           value={this.state.searchText}/> : null }
-        <div id='load-game' onClick={() => this.buildGame(this.state.movies)}>Load Game</div>
+
         {this.state.showResults ? <MovieSearchResults searchResult={this.state.searchResult}
           addMovie={this.addMovieToGame.bind(this)}/> : null}
         {this.state.showGame ? <MovieGame gameDeck={this.state.movies}/> : null}

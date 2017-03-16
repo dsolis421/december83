@@ -43,6 +43,13 @@ input {
   width: 100px;
   background-color: #5BAF5E;
   color: white;
+  line-height: 45px;
+  border-radius: 5px;
+  display: inline-block;
+}
+
+#load-game {
+  margin: 0 10px;
 }
 
 .returned-movie > div {
@@ -73,8 +80,19 @@ input {
   margin: 5px;
 }
 
+#game-status {
+  width: 100%;
+  height: 80px;
+}
+
 #start-game {
-  display: block;
+  display: inline-block;
+}
+
+#match-count {
+  font-size: 25px;
+  display: inline-block;
+  margin: 0 20px;
 }
 
 .movie-card {
@@ -83,6 +101,7 @@ input {
   border: 2px solid black;
   background: black;
 }
+
 .movie-card img {
   width: 122px;
   height: 100%;

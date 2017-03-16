@@ -1,12 +1,13 @@
 import React from 'react';
 import MovieCard from './MovieCard';
+import MatchCount from './MatchCount';
 
 class MovieGame extends React.Component {
   constructor() {
     super();
 
-    this.firstSelection = '';
-    this.secondSelection = '';
+    this.firstSelection = {};
+    this.secondSelection = {};
 
     this.state = {
       gameReady: false,
@@ -53,6 +54,30 @@ class MovieGame extends React.Component {
     }
   }
 
+  changeShowPoster(id) {
+    let changedArray = this.state.gameMovies;
+    for(var i in changedArray) {
+      if(changedArray[i].id == id) {
+        changedArray[i].showPoster = true;
+        break;
+      }
+    }
+    console.log('changed array', changedArray);
+    return changedArray;
+  }
+
+  resetShowPoster(id) {
+    let resetArray = this.state.gameMovies;
+    for(var i in resetArray) {
+      if(resetArray[i].id == id) {
+        resetArray[i].showPoster = false;
+        break;
+      }
+    }
+    return resetArray;
+  }
+
+
   checkForComplete() {
     let win = this.state.gameMovies.length / 2;
     if(this.state.matches == win) {
@@ -63,33 +88,50 @@ class MovieGame extends React.Component {
   }
 
   setSelection(selection) {
-    if(!this.firstSelection) {
-      this.firstSelection = selection;
-      return;
+    if(Object.keys(this.firstSelection).length == 0) {
+      console.log("trying to set selection one", selection);
+      this.firstSelection = selection.poster;
+      this.setState({
+        gameMovies: this.changeShowPoster(selection.id)
+      });
     } else {
-      this.secondSelection = selection;
+      console.log("trying to set selection two", selection);
+      this.secondSelection = selection.poster;
+      this.setState({
+        gameMovies: this.changeShowPoster(selection.id)
+      });
       if(this.checkForMatch(this.firstSelection, this.secondSelection)) {
-        this.setState({matches: this.state.matches++});
-        //somehow change card state
+        console.log('selections matched')
+        let updatedMatches = this.state.matches;
+        updatedMatches += 1;
+        this.setState({
+          matches: updatedMatches
+        });
+        console.log("matches", this.state.matches);
         if(this.checkForComplete()) {
           this.runGameOver();
-        } else {
-          return;
         }
       } else {
-        return;
+        console.log('selections did not match');
       }
+      this.firstSelection = {};
+      this.secondSelection = {};
     }
   }
 
   render() {
     return (
       <div id="game-board">
-        <div id='start-game'>Start Game</div>
+        <div id="game-status">
+          <div id='start-game'>Start Game</div>
+          <MatchCount matchCount={this.state.matches} />
+        </div>
         {this.state.gameMovies.map(card => {
           return (
             <MovieCard key={card.id}
-              memoryImage={card.movie}
+              id={card.id}
+              memoryImage={card.poster}
+              showPoster={card.showPoster}
               handleSelection={this.setSelection.bind(this)} />
             )
           })
