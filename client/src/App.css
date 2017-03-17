@@ -83,22 +83,40 @@ input {
 #game-status {
   width: 100%;
   height: 80px;
-}
-
-#start-game {
-  display: inline-block;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
 }
 
 #match-count {
   font-size: 25px;
   display: inline-block;
-  margin: 0 20px;
+}
+
+#game-message, #match-count {
+  height: 45px;
+  line-height: 45px;
+}
+
+#game-message, #game-message h3 {
+  margin: 0 auto;
+}
+
+#match-count {
+  margin: 0 0 0 20px;
+  text-align: right;
 }
 
 .movie-card {
   width: 122px;
   height: 183px;
-  border: 2px solid black;
+}
+
+.movie-card-matched {
+  background: #5BAF5E;
+}
+
+.movie-card-unmatched {
   background: black;
 }
 

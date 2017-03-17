@@ -52,7 +52,13 @@ class PlayArea extends React.Component {
 
   addMovieToGame(movie) {
     var x = this.game.length + 1;
-    this.game.push({id: x, poster: movie, showPoster: false});
+    this.game.push({
+      id: x,
+      poster: movie,
+      showPoster: false,
+      clickable: true,
+      matched: false
+    });
     console.log('this game', this.game);
     this.setState({
       movies: this.game
@@ -64,9 +70,14 @@ class PlayArea extends React.Component {
     //map each array index
     let gameArray = this.state.movies;
     this.state.movies.map(movie => {
-      gameArray.push({id: Math.floor(Math.random() * 1000), poster: movie.poster, showPoster: false});
-      gameArray.push({id: Math.floor(Math.random() * 1000), poster: movie.poster, showPoster: false});
-      gameArray.push({id: Math.floor(Math.random() * 1000), poster: movie.poster, showPoster: false});
+      for(var i = 0; i < 3; i++) {
+        gameArray.push({id: Math.floor(Math.random() * 99999),
+          poster: movie.poster,
+          showPoster: false,
+          clickable: true,
+          matched: false
+        });
+      }
     });
     console.log('game array', gameArray);
     this.setState({
@@ -101,7 +112,6 @@ class PlayArea extends React.Component {
           goSearch={this.goSearch.bind(this)}
           buildGame={this.buildGame.bind(this)}
           value={this.state.searchText}/> : null }
-
         {this.state.showResults ? <MovieSearchResults searchResult={this.state.searchResult}
           addMovie={this.addMovieToGame.bind(this)}/> : null}
         {this.state.showGame ? <MovieGame gameDeck={this.state.movies}/> : null}

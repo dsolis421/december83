@@ -3,30 +3,20 @@ import React from 'react';
 class MovieCard extends React.Component {
   constructor() {
     super();
-
-    this.state = {
-      clickable: true
-    }
   }
 
   clickMovie() {
     console.log('clicked movie');
-    if(this.state.clickable) {
+    if(this.props.clickable && this.props.gameReady) {
       this.props.handleSelection({id: this.props.id, poster: this.props.memoryImage});
     } else {
       return;
     }
   }
 
-  resetMovie() {
-    this.setState({
-      showPoster: false
-    });
-  }
-
   render() {
     return (
-      <div className='movie-card' onClick={() => this.clickMovie()}>
+      <div className={this.props.matched ? 'movie-card movie-card-matched' : 'movie-card movie-card-unmatched'} onClick={() => this.clickMovie()}>
         {this.props.showPoster ? <img src={this.props.memoryImage} /> : null}
       </div>
     )
