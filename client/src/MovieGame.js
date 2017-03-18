@@ -1,6 +1,6 @@
 import React from 'react';
 import MovieCard from './MovieCard';
-import MatchCount from './MatchCount';
+import GameScore from './GameScore';
 import GameMessage from './GameMessage';
 
 class MovieGame extends React.Component {
@@ -10,12 +10,15 @@ class MovieGame extends React.Component {
     this.firstSelection = {};
     this.secondSelection = {};
     this.runningMatches = 0;
+    this.runningScore = 0;
+    this.priorMatch = false;
+    this.multiplier = 1;
     this.threeGuesses = 0;
 
     this.state = {
       gameReady: true,
       gameMessage: '',
-      matches: 0,
+      gameScore: 0,
       gameMovies: [],
       gameStatus: 'pending'
     }
@@ -76,9 +79,10 @@ class MovieGame extends React.Component {
     this.firstSelection = {};
     this.secondSelection = {};
     this.runningMatches = 0;
+    this.runningScore = 0;
     this.setState({
     gameReady: true,
-    matches: 0
+    gameScore: 0
     });
   }
 
@@ -99,8 +103,13 @@ class MovieGame extends React.Component {
     }
   }
 
-  runGameOver(selection) {
-
+  runGameOver() {
+    console.log('running game over...');
+    this.setState({
+      gameReady: false,
+      gameStatus: 'complete',
+      gameMessage: `You did it!  Game complete.  Memory Index: ${Math.round((this.runningScore / this.runningMatches) * 100) / 100}`
+    });
   }
 
   checkForMatch(first, second) {
@@ -127,9 +136,10 @@ class MovieGame extends React.Component {
     console.log('checking for complete', WIN, this.runningMatches);
     if(this.runningMatches === WIN) {
       console.log('check found game complete');
-      this.runGameOver();
+      return true;
     } else {
       console.log('check did not find game complete');
+      return false;
     }
   }
 
@@ -157,20 +167,37 @@ class MovieGame extends React.Component {
           gameMessage: 'MATCH!'
         });
         this.runningMatches += 1;
-        setTimeout(function(){
-          let matchedArray = this.updateMovieCard(this.firstSelection.id, 'matched', true);
-          matchedArray = this.updateMovieCard(this.firstSelection.id, 'showPoster', false);
-          matchedArray = this.updateMovieCard(this.secondSelection.id, 'matched', true);
-          matchedArray = this.updateMovieCard(this.secondSelection.id, 'showPoster', false);
+        if(this.priorMatch) {
+          this.multiplier += 1;
+        }
+        this.runningScore = this.runningScore + (this.multiplier * 25);
+        this.priorMatch = true;
+        if(this.checkForComplete()) {
+          let finalArray = this.updateMovieCard(this.firstSelection.id, 'matched', true);
+          finalArray = this.updateMovieCard(this.firstSelection.id, 'showPoster', false);
+          finalArray = this.updateMovieCard(this.secondSelection.id, 'matched', true);
+          finalArray = this.updateMovieCard(this.secondSelection.id, 'showPoster', false);
           this.setState({
-            matches: this.runningMatches,
-            gameMovies: matchedArray,
-            gameMessage: 'Match identical posters to score',
-            gameReady: true
-          }, this.checkForComplete());
-          this.firstSelection = {};
-          this.secondSelection = {};
-        }.bind(this), 1000);
+            gameScore: this.runningScore,
+            gameMovies: finalArray
+          });
+          this.runGameOver();
+        } else {
+          setTimeout(function(){
+            let matchedArray = this.updateMovieCard(this.firstSelection.id, 'matched', true);
+            matchedArray = this.updateMovieCard(this.firstSelection.id, 'showPoster', false);
+            matchedArray = this.updateMovieCard(this.secondSelection.id, 'matched', true);
+            matchedArray = this.updateMovieCard(this.secondSelection.id, 'showPoster', false);
+            this.setState({
+              gameScore: this.runningScore,
+              gameMovies: matchedArray,
+              gameMessage: 'Match identical posters to score',
+              gameReady: true
+            });
+            this.firstSelection = {};
+            this.secondSelection = {};
+          }.bind(this), 1000);
+        }
       } else {
         console.log('selections did not match, resetting...');
         setTimeout(function(){
@@ -180,6 +207,8 @@ class MovieGame extends React.Component {
           resetArray = this.updateMovieCard(this.secondSelection.id, 'clickable', true);
           this.firstSelection = {};
           this.secondSelection = {};
+          this.multiplier = 1;
+          this.priorMatch = false;
           this.setState({
             gameMovies: resetArray,
             gameReady: true
@@ -196,7 +225,7 @@ class MovieGame extends React.Component {
           {this.state.gameStatus === 'pending' ? <div id='start-game' onClick={() => this.startGame()}>Start Game</div> :
             <div id='start-game' onClick={() => this.startGame()}>Restart Game</div>}
           <GameMessage message={this.state.gameMessage} />
-          {this.state.gameStatus === 'inprogress' ? <MatchCount matchCount={this.state.matches} /> : null}
+          <GameScore gameScore={this.state.gameScore} gameStatus={this.state.gameStatus}/>
         </div>
         {this.state.gameMovies.map(card => {
           return (

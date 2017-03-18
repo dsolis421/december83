@@ -15,7 +15,7 @@
 }
 
 #play-area {
-  padding: 30px 30px 0 180px;
+  padding: 30px;
 }
 
 input {
@@ -40,7 +40,7 @@ input {
 
 #load-game, #start-game {
   height: 45px;
-  width: 100px;
+  width: 150px;
   background-color: #5BAF5E;
   color: white;
   line-height: 45px;
@@ -88,23 +88,21 @@ input {
   flex-direction: row;
 }
 
-#match-count {
-  font-size: 25px;
+#game-score {
+  width: 150px;
+  margin: 0;
+  text-align: right;
   display: inline-block;
 }
 
-#game-message, #match-count {
+#game-message, #game-score {
   height: 45px;
+  font-size: 22px;
   line-height: 45px;
 }
 
-#game-message, #game-message h3 {
+#game-message, #game-message h3, #game-score h3 {
   margin: 0 auto;
-}
-
-#match-count {
-  margin: 0 0 0 20px;
-  text-align: right;
 }
 
 .movie-card {
