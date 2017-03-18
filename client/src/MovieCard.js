@@ -8,7 +8,7 @@ class MovieCard extends React.Component {
   clickMovie() {
     console.log('clicked movie');
     if(this.props.clickable && this.props.gameReady) {
-      this.props.handleSelection({id: this.props.id, poster: this.props.memoryImage});
+      this.props.handleSelection({game_id: this.props.game_id, poster: this.props.memoryImage});
     } else {
       return;
     }

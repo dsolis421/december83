@@ -38,7 +38,7 @@ input {
   display: inline-block;
 }
 
-#load-game, #start-game {
+#load-game, #start-game, #create-game {
   height: 45px;
   width: 150px;
   background-color: #5BAF5E;
@@ -46,6 +46,7 @@ input {
   line-height: 45px;
   border-radius: 5px;
   display: inline-block;
+  cursor: pointer;  
 }
 
 #load-game {

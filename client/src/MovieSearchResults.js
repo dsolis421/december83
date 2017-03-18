@@ -10,7 +10,7 @@ class MovieSearchResults extends React.Component {
       <div className="returned-movie">
         {this.props.searchResult.map(movie => {
           return (
-            <div key={movie.id}>
+            <div key={movie.tmdb_id}>
               <span className="fa fa-plus-square fa-2x plus-movie"
                 onClick={() => this.props.addMovie(movie.poster_path)}></span>
                 <h4>{movie.title} - {movie.release_date}</h4>

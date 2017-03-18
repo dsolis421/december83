@@ -11,7 +11,6 @@ const MovieSearchBar = props => {
         <div id="send-search" onClick={value => props.goSearch(props.value)}>
           <span className="fa fa-search"></span>
         </div>
-        <div id='load-game' onClick={() => props.buildGame()}>Load Game</div>
       </div>
     )
 }

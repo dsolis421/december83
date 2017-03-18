@@ -45,14 +45,14 @@ class MovieGame extends React.Component {
       let restartArray = this.shuffleArray(this.state.gameMovies)
       .map(movie => {
         return ({
-          id: movie.id,
+          game_id: movie.game_id,
           poster: movie.poster,
           showPoster: false,
           clickable: true,
           matched: false
         });
       });
-      console.log("Restarting game...");
+      console.log("Restarting game...", restartArray);
       this.threeGuesses = 0;
       this.setState({
         gameMovies: restartArray,
@@ -60,16 +60,16 @@ class MovieGame extends React.Component {
         gameMessage: 'You get 3 free guesses'
       });
     } else {
-      console.log("Starting game...");
       let startArray = this.state.gameMovies.map(movie => {
         return ({
-          id: movie.id,
+          game_id: movie.game_id,
           poster: movie.poster,
           showPoster: false,
           clickable: true,
           matched: false
         });
       });
+      console.log("Starting game...", startArray);
       this.setState({
       gameMovies: startArray,
       gameStatus: 'inprogress',
@@ -80,17 +80,19 @@ class MovieGame extends React.Component {
     this.secondSelection = {};
     this.runningMatches = 0;
     this.runningScore = 0;
+    this.multiplier = 1;
+    this.priorMatch = false;
     this.setState({
-    gameReady: true,
-    gameScore: 0
+      gameReady: true,
+      gameScore: 0
     });
   }
 
   runThreeGuesses(selection) {
-    console.log('running three guesses');
     this.threeGuesses += 1;
-    let guessArray = this.updateMovieCard(selection.id, 'showPoster', true);
-    guessArray = this.updateMovieCard(selection.id, 'clickable', false);
+    let guessArray = this.updateMovieCard(selection.game_id, 'showPoster', true);
+    guessArray = this.updateMovieCard(selection.game_id, 'clickable', false);
+    console.log('running three guesses', guessArray);
     this.setState({
       gameMovies: guessArray
     });
@@ -123,7 +125,7 @@ class MovieGame extends React.Component {
   updateMovieCard(id, key, value) {
     let updatedArray = this.state.gameMovies;
     for(var i in updatedArray) {
-      if(updatedArray[i].id === id) {
+      if(updatedArray[i].game_id === id) {
         updatedArray[i][key] = value;
         break;
       }
@@ -146,15 +148,15 @@ class MovieGame extends React.Component {
   runSelection(selection) {
     if(Object.keys(this.firstSelection).length == 0) {
       this.firstSelection = selection;
-      let firstArray = this.updateMovieCard(selection.id, 'showPoster', true);
-      firstArray = this.updateMovieCard(selection.id, 'clickable', false);
+      let firstArray = this.updateMovieCard(selection.game_id, 'showPoster', true);
+      firstArray = this.updateMovieCard(selection.game_id, 'clickable', false);
       this.setState({
         gameMovies: firstArray
       });
     } else {
       this.secondSelection = selection;
-      let secondArray = this.updateMovieCard(selection.id, 'showPoster', true);
-      secondArray = this.updateMovieCard(selection.id, 'clickable', false);
+      let secondArray = this.updateMovieCard(selection.game_id, 'showPoster', true);
+      secondArray = this.updateMovieCard(selection.game_id, 'clickable', false);
       let updatedGuesses = this.state.guesses;
       updatedGuesses += 1;
       this.setState({
@@ -173,10 +175,10 @@ class MovieGame extends React.Component {
         this.runningScore = this.runningScore + (this.multiplier * 25);
         this.priorMatch = true;
         if(this.checkForComplete()) {
-          let finalArray = this.updateMovieCard(this.firstSelection.id, 'matched', true);
-          finalArray = this.updateMovieCard(this.firstSelection.id, 'showPoster', false);
-          finalArray = this.updateMovieCard(this.secondSelection.id, 'matched', true);
-          finalArray = this.updateMovieCard(this.secondSelection.id, 'showPoster', false);
+          let finalArray = this.updateMovieCard(this.firstSelection.game_id, 'matched', true);
+          finalArray = this.updateMovieCard(this.firstSelection.game_id, 'showPoster', false);
+          finalArray = this.updateMovieCard(this.secondSelection.game_id, 'matched', true);
+          finalArray = this.updateMovieCard(this.secondSelection.game_id, 'showPoster', false);
           this.setState({
             gameScore: this.runningScore,
             gameMovies: finalArray
@@ -184,10 +186,10 @@ class MovieGame extends React.Component {
           this.runGameOver();
         } else {
           setTimeout(function(){
-            let matchedArray = this.updateMovieCard(this.firstSelection.id, 'matched', true);
-            matchedArray = this.updateMovieCard(this.firstSelection.id, 'showPoster', false);
-            matchedArray = this.updateMovieCard(this.secondSelection.id, 'matched', true);
-            matchedArray = this.updateMovieCard(this.secondSelection.id, 'showPoster', false);
+            let matchedArray = this.updateMovieCard(this.firstSelection.game_id, 'matched', true);
+            matchedArray = this.updateMovieCard(this.firstSelection.game_id, 'showPoster', false);
+            matchedArray = this.updateMovieCard(this.secondSelection.game_id, 'matched', true);
+            matchedArray = this.updateMovieCard(this.secondSelection.game_id, 'showPoster', false);
             this.setState({
               gameScore: this.runningScore,
               gameMovies: matchedArray,
@@ -201,10 +203,10 @@ class MovieGame extends React.Component {
       } else {
         console.log('selections did not match, resetting...');
         setTimeout(function(){
-          let resetArray = this.updateMovieCard(this.firstSelection.id, 'showPoster', false);
-          resetArray = this.updateMovieCard(this.firstSelection.id, 'clickable', true);
-          resetArray = this.updateMovieCard(this.secondSelection.id, 'showPoster', false);
-          resetArray = this.updateMovieCard(this.secondSelection.id, 'clickable', true);
+          let resetArray = this.updateMovieCard(this.firstSelection.game_id, 'showPoster', false);
+          resetArray = this.updateMovieCard(this.firstSelection.game_id, 'clickable', true);
+          resetArray = this.updateMovieCard(this.secondSelection.game_id, 'showPoster', false);
+          resetArray = this.updateMovieCard(this.secondSelection.game_id, 'clickable', true);
           this.firstSelection = {};
           this.secondSelection = {};
           this.multiplier = 1;
@@ -229,8 +231,8 @@ class MovieGame extends React.Component {
         </div>
         {this.state.gameMovies.map(card => {
           return (
-            <MovieCard key={card.id}
-              id={card.id}
+            <MovieCard key={card.game_id}
+              game_id={card.game_id}
               memoryImage={card.poster}
               showPoster={card.showPoster}
               clickable={card.clickable}
