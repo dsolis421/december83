@@ -1,6 +1,7 @@
 import React from 'react';
 import MovieSearchBar from './MovieSearchBar';
 import MovieSearchResults from './MovieSearchResults';
+import PendingGame from './PendingGame';
 import axios from 'axios';
 
 class PlayArea extends React.Component {
@@ -10,6 +11,7 @@ class PlayArea extends React.Component {
     this.game = [];
 
     this.state = {
+      pendingGame: [],
       searchText: '',
       nameText: '',
       searchResult: [],
@@ -62,6 +64,9 @@ class PlayArea extends React.Component {
       matched: false
     });
     console.log('this game', this.game);
+    this.setState({
+      pendingGame: this.game
+    });
   }
 
   formatDate(date) {
@@ -72,14 +77,18 @@ class PlayArea extends React.Component {
   render() {
     return (
       <div id="create-movie-game">
+        <h2>Create your game...</h2>
         <MovieSearchBar
           captureSearch={this.captureSearch.bind(this)}
           goSearch={this.goSearch.bind(this)}
           value={this.state.searchText}/>
         <div id='load-game' onClick={() => this.props.buildGame(this.game)}>Load Game</div>
-        <input type="text" placeholder="Name this game" value={this.state.nameText} onChange={event => this.props.captureName(event)}></input>
-        {this.state.showResults ? <MovieSearchResults searchResult={this.state.searchResult}
-          addMovie={this.addMovieToGame.bind(this)}/> : null}
+        <input id="name-input" type="text" placeholder="Name this game" value={this.state.nameText} onChange={event => this.props.captureName(event)}></input>
+        <div id="working-search">
+          <PendingGame pendingGame={this.state.pendingGame}/>
+          <MovieSearchResults searchResult={this.state.searchResult}
+            addMovie={this.addMovieToGame.bind(this)}/>
+        </div>
       </div>
     )
   }

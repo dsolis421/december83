@@ -18,6 +18,19 @@
   padding: 30px;
 }
 
+#create-movie-game > div {
+  display: inline-block;
+}
+
+#working-search {
+  width: 100%;
+  height: auto;
+}
+
+#working-search > div {
+  padding: 10px;
+}
+
 input {
   border: 2px solid #ddd;
   border-radius: 5px;
@@ -26,6 +39,11 @@ input {
   padding: 3px;
   font-size: 18px;
   display: inline-block;
+}
+
+#name-input {
+  margin: 3px auto;
+  display: block;
 }
 
 #send-search {
@@ -46,27 +64,47 @@ input {
   line-height: 45px;
   border-radius: 5px;
   display: inline-block;
-  cursor: pointer;  
+  cursor: pointer;
 }
 
 #load-game {
   margin: 0 10px;
 }
 
-.returned-movie > div {
-  height: 50px;
-  width: auto;
+.returned-movie {
+  margin: 0;
+  height: auto;
+  width: 45%;
+  float: left;
 }
 
-.returned-movie h4 {
+.returned-movie > div {
+  height: 50px;
+}
+
+.returned-movie h4, #pending-games h4 {
+  margin: 0 auto;
   display: inline-block;
   line-height: 50px;
 }
 
 .plus-movie {
   color: #5BAF5E;
-  margin: 0 20px 0 0;
+  margin: auto 20px auto 0;
   line-height: 50px;
+}
+
+#pending-games {
+  width: 45%;
+  margin: 0;
+  height: auto;
+  float: left;
+}
+
+#pending-games > div {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
 }
 
 #game-board {
@@ -75,10 +113,6 @@ input {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
-}
-
-#game-board > div {
-  margin: 5px;
 }
 
 #game-status {
@@ -109,6 +143,7 @@ input {
 .movie-card {
   width: 122px;
   height: 183px;
+  margin: 5px;
 }
 
 .movie-card-matched {

@@ -8,6 +8,7 @@ class MovieSearchResults extends React.Component {
   render() {
     return (
       <div className="returned-movie">
+        <h4>Search Results...</h4>
         {this.props.searchResult.map(movie => {
           return (
             <div key={movie.tmdb_id}>

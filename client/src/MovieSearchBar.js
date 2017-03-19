@@ -3,7 +3,6 @@ import React from 'react';
 const MovieSearchBar = props => {
     return (
       <div>
-        <h2>Create your game...</h2>
         <input type="text"
           placeholder="Search by title..."
           value={props.value}
